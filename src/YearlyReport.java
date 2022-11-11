@@ -6,8 +6,10 @@ public class YearlyReport {
     int year;
     HashMap<Integer, YearlyReportMonth> monthsData = new HashMap<>();
 
-    public YearlyReport(int year, String path) {
+    public YearlyReport(int year) {
         this.year = year;
+    }
+    public void saveReport(String path) {
         String content = readFileContentsOrNull(path); // содержимое файла
         String[] lines = content.split("\r?\n"); // массив строк
         for (int i = 1; i < lines.length; i++) {
@@ -28,12 +30,10 @@ public class YearlyReport {
             }
         }
     }
-    public int monthlyProfit() {        // прибыль за месяц
+    public int monthlyProfit(int month) {        // прибыль за месяц
         int monthlyProfit = 0;
-        for (Integer month : monthsData.keySet()) {
-            YearlyReportMonth oneMonthData = monthsData.get(month);
-            monthlyProfit += oneMonthData.income - oneMonthData.expenses;
-        }
+        YearlyReportMonth oneMonthData = monthsData.get(month);
+        monthlyProfit = oneMonthData.income - oneMonthData.expenses;
         return monthlyProfit;
     }
     public double averageExpense() {     // средний расход за год
@@ -42,7 +42,7 @@ public class YearlyReport {
         for (YearlyReportMonth oneMonthData : monthsData.values()) {
             sumExpense += oneMonthData.expenses;
         }
-        averageExpense = sumExpense / 3;
+        averageExpense = sumExpense / monthsData.size();
         return averageExpense;
     }
     public double averageIncome() {      // средний доход за год
@@ -51,8 +51,20 @@ public class YearlyReport {
         for (YearlyReportMonth oneMonthData : monthsData.values()) {
             sumIncome += oneMonthData.income;
         }
-        averageIncome = sumIncome / 3;
+        averageIncome = sumIncome / monthsData.size();
         return averageIncome;
+    }
+    public int expense(int month) {
+        int expense;
+        YearlyReportMonth oneMonthData = monthsData.get(month);
+        expense = oneMonthData.expenses;
+        return expense;
+    }
+    public int income(int month) {
+        int income;
+        YearlyReportMonth oneMonthData = monthsData.get(month);
+        income = oneMonthData.income;
+        return income;
     }
     private String readFileContentsOrNull(String path) {
         try {

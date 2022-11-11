@@ -31,7 +31,7 @@ public class MonthlyReport {
             }
         }
     }
-    public String mostProfitableProduct() {
+    public String mostProfitableProduct() {         // самый прибыльный продукт
         int maxProfit = 0;
         String profitableProduct = " ";
         for (String name : listData.keySet()) {
@@ -43,7 +43,7 @@ public class MonthlyReport {
         }
         return profitableProduct + " - " + maxProfit;
     }
-    public String maxExpense() {
+    public String maxExpense() {                    // самая большая трата
         int maxExpense = 0;
         String expenseProduct = "";
         for (String name : listData.keySet()) {
@@ -54,6 +54,22 @@ public class MonthlyReport {
             }
         }
         return expenseProduct + " - " + maxExpense;
+    }
+    public int sumExpense() {                       // сумма расходов
+        int sumExpense = 0;
+        for (String name : listData.keySet()) {
+            MonthlyDate monthlyDate = listData.get(name);
+            sumExpense += monthlyDate.expense;
+        }
+        return sumExpense;
+    }
+    public int  sumIncome() {                       // сумма доходов
+        int sumIncome = 0;
+        for (String name : listData.keySet()) {
+            MonthlyDate monthlyDate = listData.get(name);
+            sumIncome += monthlyDate.income;
+        }
+        return sumIncome;
     }
     private String readFileContentsOrNull(String path) {
         try {
